@@ -144,17 +144,8 @@
             },
             refresh(index, row) {
                 let id = row.id;
-                let para = {
-                    name:'abc'
-                };
                 refreshSim(id).then((res) => {
-                    console.log(res.data);
-                    var list = this.list;
-                    list.index = res.data;
-                    this.list = list;
-
-//                    this.list[index] = res.data;
-//                    this.list = [res.data];
+                    this.$set(this.list, index, res.data);
 
                     this.$notify({
                         message: row.phone_number +'刷新成功',
@@ -163,7 +154,7 @@
                 });
             },
             selsChange: function (sels) {
-//                this.sels = sels;
+                this.sels = sels;
             }
         },
         mounted() {
