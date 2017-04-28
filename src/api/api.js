@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 let base = 'http://192.168.199.229:9099/sim/api';
+axios.defaults.headers.common['session']=JSON.parse(sessionStorage.getItem('user')).session;
 
 export const requestLogin = params => { return axios.post(`${base}/user/login`, params).then(res => res.data); };
 
