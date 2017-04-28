@@ -1,6 +1,7 @@
 import babelpolyfill from 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
+import axios from 'axios';
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 //import './assets/theme/theme-green/index.css'
@@ -25,12 +26,19 @@ const router = new VueRouter({
   'mode': 'history', 
 })
 
+axios.interceptors.request.use(function (config) {
+    if(sessionStorage.getItem('user')){
+        config.headers.common['session'] =sessionStorage.getItem('user');
+    }
+    return config
+});
+
 router.beforeEach((to, from, next) => {
   //NProgress.start();
   if (to.path == '/login') {
     sessionStorage.removeItem('user');
   }
-  let user = JSON.parse(sessionStorage.getItem('user'));
+  let user = sessionStorage.getItem('user');
   if (!user && to.path != '/login') {
     next({ path: '/login' })
   } else {
